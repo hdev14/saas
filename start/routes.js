@@ -20,6 +20,8 @@ Route.post('/sessions', 'SessionController.store')
 
 Route.group(() => {
   Route.resource('/teams', 'TeamController')
-
-  Route.post('/invites', 'InviteController.store').middleware('team')
 }).middleware('auth')
+
+Route.group(() => {
+  Route.post('/invites', 'InviteController.store')
+}).middleware(['auth', 'team'])
