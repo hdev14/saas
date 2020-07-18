@@ -48,4 +48,7 @@ Route.group(() => {
       ]
     ]
   ))
+  Route.get('/members', 'MemberController.index')
+  Route.put('/members/:id', 'MemberController.update').middleware('is:admin')
+  Route.get('/authorizations', 'AuthorizationController.show')
 }).middleware(['auth', 'team'])
