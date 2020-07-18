@@ -16,7 +16,6 @@ class InvitationEmail {
 
   // This is where the work is done.
   async handle ({ user, team, email }) {
-    console.log(user, team)
     await Mail.send(
       'emails.invitation',
       { user: user.name, team: team.name },

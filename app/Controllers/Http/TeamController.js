@@ -4,6 +4,8 @@
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
 
+const Role = use('Adonis/Acl/Role')
+
 /**
  * Resourceful controller for interacting with teams
  */
@@ -36,6 +38,10 @@ class TeamController {
       ...data,
       user_id: auth.user.id
     })
+
+    const userTeam = await auth.user.userTeams().where('team_id', team.id).first()
+    const adminRole = await Role.findBy('slug', 'admin')
+    await userTeam.roles().attach([adminRole.id])
 
     return team
   }
