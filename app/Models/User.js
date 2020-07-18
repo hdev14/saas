@@ -21,22 +21,31 @@ class User extends Model {
     })
   }
 
-  /**
-   * A relationship on tokens is required for auth to
-   * work. Since features like `refreshTokens` or
-   * `rememberToken` will be saved inside the
-   * tokens table.
-   *
-   * @method tokens
-   *
-   * @return {Object}
-   */
+  async is (expression) {
+    const team = await this.userTeams().where('team_id', this.currentTeamId).first()
+    return team.is(expression)
+  }
+
+  async can (expression) {
+    const team = await this.userTeams().where('team_id', this.currentTeamId).first()
+    return team.can(expression)
+  }
+
+  async scope (required) {
+    const team = await this.userTeams().where('team_id', this.currentTeamId).first()
+    return team.scope(required)
+  }
+
   tokens () {
     return this.hasMany('App/Models/Token')
   }
 
   teams () {
     return this.belongsToMany('App/Models/Team').pivotModel('App/Models/UserTeam')
+  }
+
+  userTeams () {
+    return this.hasMany('App/Models/UserTeam')
   }
 }
 
