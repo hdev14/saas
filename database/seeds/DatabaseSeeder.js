@@ -25,12 +25,12 @@ class DatabaseSeeder {
 
     const createInvite = await Permission.create({
       name: 'Can Create Invite',
-      slug: 'can-create-invite'
+      slug: 'create-invite'
     })
 
     const createProject = await Permission.create({
       name: 'Can Create Project',
-      slug: 'can-create-project'
+      slug: 'create-project'
     })
 
     const admin = await Role.create({
