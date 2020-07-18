@@ -16,14 +16,28 @@
 /** @type {typeof import('@adonisjs/framework/src/Route/Manager')} */
 const Route = use('Route')
 
-Route.post('/sessions', 'SessionController.store')
-Route.post('/users', 'UserController.store')
+Route.post('/sessions', 'SessionController.store').validator('Session')
+Route.post('/users', 'UserController.store').validator('User')
 
 Route.group(() => {
-  Route.resource('/teams', 'TeamController')
+  Route.resource('/teams', 'TeamController').validator(new Map(
+    [
+      [
+        ['teams.store', 'teams.update'],
+        ['Team']
+      ]
+    ]
+  ))
 }).middleware('auth')
 
 Route.group(() => {
-  Route.post('/invites', 'InviteController.store')
-  Route.resource('/projects', 'ProjectController')
+  Route.post('/invites', 'InviteController.store').validator('Invite')
+  Route.resource('/projects', 'ProjectController').validator(new Map(
+    [
+      [
+        ['projects.store', 'projects.update'],
+        ['Project']
+      ]
+    ]
+  ))
 }).middleware(['auth', 'team'])
