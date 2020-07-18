@@ -17,7 +17,6 @@ class UserController {
     await user.teams().attach(teams)
 
     await inviteQuery.delete()
-
     const token = await auth.attempt(data.email, data.password)
     return token
   }
